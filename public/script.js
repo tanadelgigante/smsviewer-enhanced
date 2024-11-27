@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Usa la variabile globale iniettata tramite index.html
     const apiUrl = `${window.location.protocol}//${window.location.hostname}:4000/get-latest-sms`;
-	  
+	alert(apiUrl);
     // Funzione per caricare i dati XML tramite drag-and-drop o upload
     const loadXML = (xmlText) => {
         const parser = new DOMParser();
