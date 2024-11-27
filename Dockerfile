@@ -10,10 +10,6 @@ COPY . .
 # Install dependencies
 RUN npm install
 
-# Build-time argument for API URL
-ARG API_URL=http://localhost:3000/get-latest-sms
-ENV API_URL=$API_URL
-
 # Expose ports
 EXPOSE 3000 80 3001
 

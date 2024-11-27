@@ -6,9 +6,14 @@
 <title>SMS Viewer</title>
 <script>
     // Fetch the API URL from the server at runtime
+    console.log('Fetching API URL...');
     fetch('/config')
-        .then(response => response.json())
+        .then(response => {
+            console.log('Response received from config server:', response);
+            return response.json();
+        })
         .then(data => {
+            console.log('API URL data:', data);
             window.API_URL = data.API_URL || "/get-latest-sms";
         })
         .catch(error => {
