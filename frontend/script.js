@@ -4,13 +4,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const chatWindow = document.getElementById("chat-window");
     const contactList = document.getElementById("contact-list");
 
-    // Function to load XML data via drag-and-drop or upload
+    // Recupera l'URL del server dall'environment (definito in Docker Compose)
+    const apiUrl = process.env.API_URL || "/get-latest-sms";  // Se non trovato, usa il default
+
+    // Funzione per caricare i dati XML tramite drag-and-drop o upload
     const loadXML = (xmlText) => {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlText, "application/xml");
-        const parseError = xmlDoc.querySelector("parsererror");
-
-        if (parseError) {
+        if (xmlDoc.querySelector("parsererror")) {
             alert("Invalid XML file!");
             return;
         }
@@ -18,18 +19,18 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // Fetch the most recent XML file from the server on page load
-	fetch("http://backend:3000/get-latest-sms")
-	    .then((response) => {
-	        if (!response.ok) throw new Error("Failed to load the XML file");
-	        return response.text();
-	    })
-	    .then(loadXML)
-	    .catch((error) => {
-	        console.error(error);
-	        alert("Error loading XML file. Please upload a valid XML.");
-	    });
+    fetch(apiUrl)
+        .then((response) => {
+            if (!response.ok) throw new Error("Failed to load the XML file");
+            return response.text();
+        })
+        .then(loadXML)
+        .catch((error) => {
+            console.error(error);
+            alert("Error loading XML file. Please upload a valid XML.");
+        });
 
-    // Drag-and-drop event listeners
+    // Event listeners per drag-and-drop
     uploadArea.addEventListener("dragover", (e) => {
         e.preventDefault();
         uploadArea.classList.add("hover");
@@ -52,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // File input event listener (click event to open file dialog)
+    // File input event listener
     uploadArea.addEventListener("click", () => fileInput.click());
     fileInput.addEventListener("change", () => {
         const file = fileInput.files[0];
@@ -86,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
             li.className = "list-group-item";
             li.textContent = contact;
             li.addEventListener("click", () => {
-                chatWindow.innerHTML = ""; // Clear current chat window
+                chatWindow.innerHTML = "";
                 contacts[contact].forEach((msg) => {
                     const card = document.createElement("div");
                     card.className = `card mb-2 ${msg.type === "1" ? "incoming" : "outgoing"}`;
