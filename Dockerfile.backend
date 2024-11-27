@@ -10,7 +10,6 @@ COPY backend/server.js ./
 
 # Installa le dipendenze
 RUN npm cache clean --force
-RUN npm set registry https://registry.npmjs.cf
 RUN rm -rf node_modules package-lock.json
 RUN npm install
 
