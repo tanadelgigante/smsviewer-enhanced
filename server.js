@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const app = express();
-const port = 3000;
+const port = 3000; // Porta fissa per il server
 
 // Debug: Log server start
 console.log('Starting server...');
@@ -62,6 +62,11 @@ app.get('/get-latest-sms', (req, res) => {
     console.log('Successfully read the SMS file');
     res.type('xml').send(data); // Risponde con il contenuto del file XML
   });
+});
+
+// Servire l'index.html per tutte le altre richieste
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Avvia il server sulla porta configurata

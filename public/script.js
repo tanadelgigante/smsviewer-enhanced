@@ -4,9 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const chatWindow = document.getElementById("chat-window");
     const contactList = document.getElementById("contact-list");
 
-    // Usa la variabile globale iniettata tramite index.html
-    const apiUrl = `${window.location.protocol}//${window.location.hostname}:4000/get-latest-sms`;
-	alert(apiUrl);
     // Funzione per caricare i dati XML tramite drag-and-drop o upload
     const loadXML = (xmlText) => {
         const parser = new DOMParser();
@@ -19,15 +16,15 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // Fetch the most recent XML file from the server on page load
-    fetch(apiUrl)
+    fetch("/get-latest-sms")
         .then((response) => {
             if (!response.ok) throw new Error("Failed to load the XML file");
             return response.text();
         })
         .then(loadXML)
         .catch((error) => {
+			console.error("Error loading XML file. Please upload a valid XML.");
             console.error(error);
-            alert("Error loading XML file. Please upload a valid XML.");
         });
 
     // Event listeners per drag-and-drop
