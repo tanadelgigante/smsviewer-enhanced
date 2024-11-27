@@ -1,18 +1,13 @@
 services:
-  backend:
+  app:
     build:
       context: .
-      dockerfile: Dockerfile.backend
+      dockerfile: Dockerfile
     volumes:
       - ./sms:/app/sms
+    environment:
+      - API_URL=http://localhost:3000/get-latest-sms  # Indica l'URL del server API
     ports:
-      - "3000:3000"
-    restart: always
-
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
-    ports:
-      - "8080:80"
+      - "4000:3000"
+      - "4001:80"
     restart: always
