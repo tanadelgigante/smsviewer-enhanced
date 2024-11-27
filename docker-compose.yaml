@@ -5,9 +5,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./sms:/app/sms
-    environment:
-      - API_URL=http://localhost:3000/get-latest-sms  # Indica l'URL del server API
     ports:
       - "4000:3000"
-      - "4001:80"
     restart: always
+
