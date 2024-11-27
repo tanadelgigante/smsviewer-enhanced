@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const chatWindow = document.getElementById("chat-window");
     const contactList = document.getElementById("contact-list");
 
-    // Recupera l'URL del server dall'environment (definito in Docker Compose)
-    const apiUrl = process.env.API_URL || "/get-latest-sms";  // Se non trovato, usa il default
+    // Usa la variabile globale iniettata tramite index.html
+    const apiUrl = window.API_URL || "/get-latest-sms";  // Se non trovato, usa il default
 
     // Funzione per caricare i dati XML tramite drag-and-drop o upload
     const loadXML = (xmlText) => {

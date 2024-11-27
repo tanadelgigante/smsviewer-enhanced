@@ -1,8 +1,20 @@
-# Usa un'immagine Nginx
-FROM nginx:stable-alpine
+# Dockerfile per il frontend
+FROM node:18
 
-# Copia i file statici nella directory di default di Nginx
-COPY frontend /usr/share/nginx/html
+WORKDIR /app
 
-# Espone la porta 80 per il frontend
-EXPOSE 80
+# Aggiungi una variabile d'ambiente di build
+ARG API_URL
+ENV API_URL=$API_URL
+
+# Copia il codice frontend
+COPY . .
+
+# Installa le dipendenze
+RUN npm install
+
+# Modifica il file script.js o index.html con la variabile API_URL
+RUN sed -i "s|<API_URL_PLACEHOLDER>|$API_URL|g" /app/index.html
+
+# Avvia il server frontend
+CMD ["npm", "start"]
