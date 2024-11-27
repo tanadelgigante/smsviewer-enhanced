@@ -9,6 +9,9 @@
     console.log('Fetching API URL...');
     fetch('/config')
         .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
             console.log('Response received from config server:', response);
             return response.json();
         })
