@@ -14,11 +14,8 @@ RUN npm install
 ARG API_URL=http://localhost:3000/get-latest-sms
 ENV API_URL=$API_URL
 
-# Modify script to use API URL
-RUN sed -i 's|window.API_URL || "/get-latest-sms"|"'"$API_URL"'"|g' public/script.js
-
 # Expose ports
-EXPOSE 3000 80
+EXPOSE 3000 80 3001
 
 # Copy startup script
 COPY start.sh /start.sh
