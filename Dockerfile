@@ -15,7 +15,7 @@ ARG API_URL=http://localhost:3000/get-latest-sms
 ENV API_URL=$API_URL
 
 # Modify script to use API URL
-RUN sed -i "s|window.API_URL || \"/get-latest-sms\"|\"$API_URL\"|g" public/script.js
+RUN sed -i 's|window.API_URL || "/get-latest-sms"|"'"$API_URL"'"|g' public/script.js
 
 # Expose ports
 EXPOSE 3000 80
