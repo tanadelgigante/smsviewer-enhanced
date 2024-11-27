@@ -8,7 +8,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const loadXML = (xmlText) => {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlText, "application/xml");
-        if (xmlDoc.querySelector("parsererror")) {
+        const parseError = xmlDoc.querySelector("parsererror");
+
+        if (parseError) {
             alert("Invalid XML file!");
             return;
         }
@@ -16,13 +18,16 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // Fetch the most recent XML file from the server on page load
-    fetch("/api/sms")
-        .then((response) => {
-            if (!response.ok) throw new Error("Failed to load the XML file");
-            return response.text();
-        })
-        .then(loadXML)
-        .catch((error) => console.error(error));
+	fetch("http://backend:3000/get-latest-sms")
+	    .then((response) => {
+	        if (!response.ok) throw new Error("Failed to load the XML file");
+	        return response.text();
+	    })
+	    .then(loadXML)
+	    .catch((error) => {
+	        console.error(error);
+	        alert("Error loading XML file. Please upload a valid XML.");
+	    });
 
     // Drag-and-drop event listeners
     uploadArea.addEventListener("dragover", (e) => {
@@ -47,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // File input event listener
+    // File input event listener (click event to open file dialog)
     uploadArea.addEventListener("click", () => fileInput.click());
     fileInput.addEventListener("change", () => {
         const file = fileInput.files[0];
@@ -81,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
             li.className = "list-group-item";
             li.textContent = contact;
             li.addEventListener("click", () => {
-                chatWindow.innerHTML = "";
+                chatWindow.innerHTML = ""; // Clear current chat window
                 contacts[contact].forEach((msg) => {
                     const card = document.createElement("div");
                     card.className = `card mb-2 ${msg.type === "1" ? "incoming" : "outgoing"}`;
