@@ -64,13 +64,6 @@ app.get('/get-latest-sms', (req, res) => {
   });
 });
 
-// Endpoint per servire l'API URL
-app.get('/config', (req, res) => {
-  // Debug: Log API URL
-  console.log('Serving API URL:', process.env.API_URL);
-  res.json({ API_URL: process.env.API_URL });
-});
-
 // Avvia il server sulla porta configurata
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

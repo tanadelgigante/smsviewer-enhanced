@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const contactList = document.getElementById("contact-list");
 
     // Usa la variabile globale iniettata tramite index.html
-    const apiUrl = window.API_URL || "/get-latest-sms";  // Se non trovato, usa il default
-
+    const apiUrl = `${window.location.protocol}//${window.location.hostname}:4000/get-latest-sms`;
+	  
     // Funzione per caricare i dati XML tramite drag-and-drop o upload
     const loadXML = (xmlText) => {
         const parser = new DOMParser();
