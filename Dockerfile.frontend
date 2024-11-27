@@ -1,0 +1,8 @@
+# Usa un'immagine Nginx
+FROM nginx:stable-alpine
+
+# Copia i file statici nella directory di default di Nginx
+COPY frontend /usr/share/nginx/html
+
+# Espone la porta 80 per il frontend
+EXPOSE 80
